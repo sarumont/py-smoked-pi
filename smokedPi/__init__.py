@@ -9,6 +9,8 @@ config = {
         "CS": 24,
         "DO": 18
         }
+SPI_PORT   = 0
+SPI_DEVICE = 0
 
 # Define a function to convert celsius to fahrenheit.
 def c_to_f(c):
@@ -16,8 +18,9 @@ def c_to_f(c):
 
 
 if __name__ == "__main__":
-    print("Hello, world %d %d %d" % (config["CLK"], config["CS"], config["DO"]))
-    sensor = MAX31855.MAX31855(config["CLK"], config["CS"], config["DO"])
+    #print("Hello, world %d %d %d" % (config["CLK"], config["CS"], config["DO"]))
+    #sensor = MAX31855.MAX31855(config["CLK"], config["CS"], config["DO"])
+    sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
     while True:
             temp = sensor.readTempC()
             internal = sensor.readInternalC()
