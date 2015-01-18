@@ -1,4 +1,7 @@
 import sys
+import time
+
+import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 
 config = {
@@ -6,6 +9,11 @@ config = {
         "CS": 24,
         "DO": 18
         }
+
+# Define a function to convert celsius to fahrenheit.
+def c_to_f(c):
+        return c * 9.0 / 5.0 + 32.0
+
 
 if __name__ == "__main__":
     print("Hello, world %d %d %d" % (config["CLK"], config["CS"], config["DO"]))
