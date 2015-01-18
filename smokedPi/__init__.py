@@ -1,5 +1,5 @@
 import sys
-import Adafruit_MAX1855.MAX31855 as MAX31855
+import Adafruit_MAX31855.MAX31855 as MAX31855
 
 config = {
         "CLK": 25,
