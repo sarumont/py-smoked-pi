@@ -4,23 +4,25 @@ import time
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 
+from pybald.temperature import c_to_f
+
 config = {
+        "SPI": False,
+        "SPI_PORT": 0,
+        "SPI_DEVICE": 0,
         "CLK": 25,
         "CS": 24,
-        "DO": 18
+        "DO": 18,
+        "SSR": 17
         }
-SPI_PORT   = 0
-SPI_DEVICE = 0
-
-# Define a function to convert celsius to fahrenheit.
-def c_to_f(c):
-        return c * 9.0 / 5.0 + 32.0
-
 
 if __name__ == "__main__":
-    #print("Hello, world %d %d %d" % (config["CLK"], config["CS"], config["DO"]))
-    #sensor = MAX31855.MAX31855(config["CLK"], config["CS"], config["DO"])
-    sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+    print("Hello, world %d %d %d" % (config["CLK"], config["CS"], config["DO"]))
+    if config["SPI"]:
+        sensor = MAX31855.MAX31855(spi=SPI.SpiDev(config["SPI_PORT"], config["SPI_DEVICE"]))
+    else:
+        sensor = MAX31855.MAX31855(config["CLK"], config["CS"], config["DO"])
+
     while True:
             temp = sensor.readTempC()
             internal = sensor.readInternalC()
