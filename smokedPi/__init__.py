@@ -27,19 +27,21 @@ if __name__ == "__main__":
     else:
         sensor = MAX31855.MAX31855(config["CLK"], config["CS"], config["DO"])
 
-    GPIO.setmode(GPIO.BOARD)
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(config["SSR"], GPIO.OUT, initial=GPIO.LOW)
 
-    GPIO.output(config["SSR"], GPIO.HIGH)
+    try:
 
-    while True:
-        temp = sensor.readTempC()
-        internal = sensor.readInternalC()
-        print 'Thermocouple Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(temp, c_to_f(temp))
-        print '    Internal Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(internal, c_to_f(internal))
-        time.sleep(1.0)
+        GPIO.output(config["SSR"], GPIO.HIGH)
+        while True:
+            temp = sensor.readTempC()
+            internal = sensor.readInternalC()
+            print 'Thermocouple Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(temp, c_to_f(temp))
+            print '    Internal Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(internal, c_to_f(internal))
+            time.sleep(1.0)
 
-
-    GPIO.cleanup(config["SSR"])
+    finally:
+        GPIO.output(config["SSR"], GPIO.LOW)
+        GPIO.cleanup(config["SSR"])
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
